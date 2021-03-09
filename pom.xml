@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.orangehealth</groupId>
 	<artifactId>bvac</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>bvac</name>
 	<description>Brazilian vaccination management system</description>
 	<properties>
