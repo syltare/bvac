@@ -13,6 +13,7 @@ import io.orangehealth.bvac.repository.UserRepository;
  * 
  * @author Rafael Rodrigues
  */
+
 @Service
 public class UserService {
 	private UserRepository userRepository;
@@ -21,23 +22,19 @@ public class UserService {
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
+
 	/**
-	 * Creates a user
+	 * Creates and saves a user
 	 * 
-	 * @param signupUser
+	 * @param User signupUser
 	 * @return Optional of user, empty if already exists
 	 */
-	public Optional<User> signup(User signupUser){
+	public Optional<User> signup(User signupUser) {
 		Optional<User> user = Optional.empty();
-		if(!userRepository.findByEmail(signupUser.getEmail()).isPresent()
+		if (!userRepository.findByEmail(signupUser.getEmail()).isPresent()
 				&& !userRepository.findByCpf(signupUser.getCpf()).isPresent()) {
-			user = Optional.of(userRepository.save(
-					new User(signupUser.getFirstName(),
-							signupUser.getLastName(),
-							signupUser.getEmail(),
-							signupUser.getCpf(),
-							signupUser.getBirthDate())));
+			user = Optional.of(userRepository.save(new User(signupUser.getFirstName(), signupUser.getLastName(),
+					signupUser.getEmail(), signupUser.getCpf(), signupUser.getBirthDate())));
 		}
 		return user;
 	}

@@ -1,4 +1,4 @@
-package io.orangehealth.bvac.controller;
+package io.orangehealth.bvac.web;
 
 import javax.validation.Valid;
 
@@ -25,12 +25,12 @@ import io.orangehealth.bvac.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	/**
 	 * Signup Endpoint
 	 * 
-	 * @param user
-	 * @return
+	 * @param User object
+	 * @return HTTP status 201 if success, HTTP 400 if fails
 	 */
 	@PostMapping(path = "/signup")
 	@ResponseStatus(HttpStatus.CREATED)
