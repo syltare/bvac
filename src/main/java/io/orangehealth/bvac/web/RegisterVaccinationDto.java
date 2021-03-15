@@ -9,6 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import io.orangehealth.bvac.domain.Vaccine;
 
+/**
+ * Register Vaccine DTO
+ * 
+ * @author Rafael Rodrigues
+ */
 public class RegisterVaccinationDto {
 	@NotNull
 	private Vaccine vaccineName;
