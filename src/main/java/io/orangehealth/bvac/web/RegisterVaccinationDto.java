@@ -24,12 +24,12 @@ public class RegisterVaccinationDto {
 	private LocalDate injectionDate;
 	
 	@NotNull
-	private long id;
+	private long userId;
 	
-	public RegisterVaccinationDto(Vaccine vaccineName,LocalDate injectionDate, long id) {
+	public RegisterVaccinationDto(Vaccine vaccineName,LocalDate injectionDate, long userId) {
 		this.vaccineName = vaccineName;
 		this.injectionDate = injectionDate;
-		this.id = id;
+		this.userId = userId;
 	}
 	public Vaccine getVaccineName() {
 		return vaccineName;
@@ -43,10 +43,10 @@ public class RegisterVaccinationDto {
 	public void setInjectionDate(LocalDate injectionDate) {
 		this.injectionDate = injectionDate;
 	}
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long id) {
+		this.userId = id;
 	}	
 }

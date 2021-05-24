@@ -29,10 +29,10 @@ public class VaccineInjectionService {
 
 	public RegisterVaccinationDto register(RegisterVaccinationDto registerVaccinationDto) {
 		Optional<VaccineInjection> vaccineInjection = Optional.empty();
-		if (userService.findById(registerVaccinationDto.getId()).isPresent()) {
+		if (userService.findById(registerVaccinationDto.getUserId()).isPresent()) {
 			vaccineInjection = Optional.of(vaccineInjectionRepository
 					.save(new VaccineInjection(registerVaccinationDto.getVaccineName(), registerVaccinationDto.getInjectionDate(),
-						 userService.findById(registerVaccinationDto.getId()).get())));
+						 userService.findById(registerVaccinationDto.getUserId()).get())));
 		} else {
 			vaccineInjection.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"No user bind to this CPF."));
