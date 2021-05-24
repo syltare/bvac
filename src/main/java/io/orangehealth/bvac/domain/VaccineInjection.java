@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,20 +31,11 @@ public class VaccineInjection {
 	private long id;
 	
 	@Column(name = "vaccine_name")
-	@NotNull(message = "Vaccine name is a required field.")
 	private Vaccine vaccineName;
 	
 	@Column(name = "injection_date")
-	@NotNull(message = "Injection date is a required field.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate injectionDate;
-	
-	/*
-	 * @Column(name = "user_email")
-	 * 
-	 * @NotBlank(message = "User e-mail is a required field.") private String
-	 * userEmail;
-	 */
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")

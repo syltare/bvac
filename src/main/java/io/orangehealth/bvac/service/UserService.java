@@ -2,11 +2,13 @@ package io.orangehealth.bvac.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.orangehealth.bvac.domain.User;
 import io.orangehealth.bvac.repository.UserRepository;
+import io.orangehealth.bvac.web.RegisterUserDto;
 
 /**
  * User Service
@@ -18,24 +20,24 @@ import io.orangehealth.bvac.repository.UserRepository;
 public class UserService {
 	private UserRepository userRepository;
 
-	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
-	/**
-	 * Creates and saves a user
-	 * 
-	 * @param User signupUser
-	 * @return Optional of user, empty if already exists
-	 */
-	public Optional<User> signup(User signupUser) {
+	public RegisterUserDto signup(RegisterUserDto registerUserDto) {
 		Optional<User> user = Optional.empty();
-		if (!userRepository.findByEmail(signupUser.getEmail()).isPresent()
-				&& !userRepository.findByCpf(signupUser.getCpf()).isPresent()) {
-			user = Optional.of(userRepository.save(new User(signupUser.getFirstName(), signupUser.getLastName(),
-					signupUser.getEmail(), signupUser.getCpf(), signupUser.getBirthDate())));
+		if (!userRepository.findByEmail(registerUserDto.getEmail()).isPresent()
+				&& !userRepository.findByCpf(registerUserDto.getCpf()).isPresent()) {
+			user = Optional.of(userRepository.save(new User(registerUserDto.getFirstName(), registerUserDto.getLastName(),
+					registerUserDto.getEmail(), registerUserDto.getCpf(), registerUserDto.getBirthDate())));
+		} else {
+			user.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"CPF or e-mail already registered."));
 		}
-		return user;
+		return registerUserDto;
+	}
+
+	public Optional<User> findById(long id) {
+		return userRepository.findById(id);
 	}
 }

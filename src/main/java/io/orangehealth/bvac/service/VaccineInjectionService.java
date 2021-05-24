@@ -1,15 +1,14 @@
 package io.orangehealth.bvac.service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import io.orangehealth.bvac.domain.Vaccine;
 import io.orangehealth.bvac.domain.VaccineInjection;
-import io.orangehealth.bvac.repository.UserRepository;
 import io.orangehealth.bvac.repository.VaccineInjectionRepository;
+import io.orangehealth.bvac.web.RegisterVaccinationDto;
 
 /**
  * Vaccine Injection Service
@@ -19,30 +18,25 @@ import io.orangehealth.bvac.repository.VaccineInjectionRepository;
 
 @Service
 public class VaccineInjectionService {
-	private UserRepository userRepository;
+	private UserService userService;
 	private VaccineInjectionRepository vaccineInjectionRepository;
 
-	@Autowired
-	public VaccineInjectionService(UserRepository userRepository,
+	public VaccineInjectionService(UserService userService,
 			VaccineInjectionRepository vaccineInjectionRepository) {
-		this.userRepository = userRepository;
+		this.userService = userService;
 		this.vaccineInjectionRepository = vaccineInjectionRepository;
 	}
 
-	/**
-	 * Creates and saves a vaccine injection
-	 * 
-	 * @param vaccineName
-	 * @param injectionDate
-	 * @param cpf
-	 * @return Optional of vaccine injection, empty if user don't exist
-	 */
-	public Optional<VaccineInjection> register(Vaccine vaccineName, LocalDate injectionDate, String cpf) {
+	public RegisterVaccinationDto register(RegisterVaccinationDto registerVaccinationDto) {
 		Optional<VaccineInjection> vaccineInjection = Optional.empty();
-		if (userRepository.findByCpf(cpf).isPresent()) {
+		if (userService.findById(registerVaccinationDto.getId()).isPresent()) {
 			vaccineInjection = Optional.of(vaccineInjectionRepository
-					.save(new VaccineInjection(vaccineName, injectionDate, userRepository.findByCpf(cpf).get())));
+					.save(new VaccineInjection(registerVaccinationDto.getVaccineName(), registerVaccinationDto.getInjectionDate(),
+						 userService.findById(registerVaccinationDto.getId()).get())));
+		} else {
+			vaccineInjection.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"No user bind to this CPF."));
 		}
-		return vaccineInjection;
+		return registerVaccinationDto;
 	}
 }

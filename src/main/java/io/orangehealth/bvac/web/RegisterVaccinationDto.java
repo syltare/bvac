@@ -3,7 +3,6 @@ package io.orangehealth.bvac.web;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,18 +15,21 @@ import io.orangehealth.bvac.domain.Vaccine;
  */
 public class RegisterVaccinationDto {
 	@NotNull
+	@NotNull(message = "Vaccine name is a required field.")
 	private Vaccine vaccineName;
+	
 	@NotNull
+	@NotNull(message = "Injection date is a required field.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate injectionDate;
-	@NotNull
-	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$")
-	private String cpf;
 	
-	public RegisterVaccinationDto(Vaccine vaccineName,LocalDate injectionDate, String cpf) {
+	@NotNull
+	private long id;
+	
+	public RegisterVaccinationDto(Vaccine vaccineName,LocalDate injectionDate, long id) {
 		this.vaccineName = vaccineName;
 		this.injectionDate = injectionDate;
-		this.cpf = cpf;
+		this.id = id;
 	}
 	public Vaccine getVaccineName() {
 		return vaccineName;
@@ -41,11 +43,10 @@ public class RegisterVaccinationDto {
 	public void setInjectionDate(LocalDate injectionDate) {
 		this.injectionDate = injectionDate;
 	}
-	public String getCpf() {
-		return cpf;
+	public long getId() {
+		return id;
 	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
+	public void setId(long id) {
+		this.id = id;
+	}	
 }

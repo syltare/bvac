@@ -13,10 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,24 +33,18 @@ public class User {
 	private long id;
 	
 	@Column(name = "first_name")
-	@NotBlank(message = "First name is a required field.")
 	private String firstName;
 	
 	@Column(name = "last_name")
 	private String lastName;
 	
 	@Column(name = "email", unique = true)
-	@NotBlank(message = "E-mail is a required field.")
-	@Email(message = "Invalid e-mail")
 	private String email;
 	
 	@Column(name = "cpf", unique = true)
-	@NotBlank(message = "CPF is a required field")
-	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$", message = "000.000.000-00 must be the specified format for CPF.")
 	private String cpf;
 	
 	@Column(name = "birth_date")
-	@NotNull(message = "Birth date is a required field.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 	

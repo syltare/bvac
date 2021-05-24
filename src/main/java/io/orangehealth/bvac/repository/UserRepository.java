@@ -14,5 +14,6 @@ import io.orangehealth.bvac.domain.User;
 
 public interface UserRepository extends CrudRepository<User, Long>{
 	Optional<User> findByEmail(String email);
+	Optional<User> findById(long id);
 	Optional<User> findByCpf(String cpf);
 }
